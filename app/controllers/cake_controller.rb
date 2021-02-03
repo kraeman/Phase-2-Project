@@ -22,3 +22,4 @@ class CakeController < ApplicationController
     patch '/cakes/:id' do
         
     end
+end
