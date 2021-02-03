@@ -4,7 +4,8 @@ class CreateCakes < ActiveRecord::Migration
       t.string :name
       t.decimal :price
       t.decimal :cook_time
-      t.integer :ingredient_id
+      t.integer :person_from_id
+      t.integer :person_to_id
     end
   end
 end

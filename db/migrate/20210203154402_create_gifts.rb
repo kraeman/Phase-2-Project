@@ -1,6 +1,6 @@
 class CreateGifts < ActiveRecord::Migration
   def change
-    create_table :cakes do |t|
+    create_table :gifts do |t|
       t.string :name
       t.decimal :price
       t.integer :person_from_id
