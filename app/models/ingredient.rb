@@ -1,3 +1,3 @@
-class Invitation < ActiveRecord::Base
-    belongs_to :cake
+class Ingredient < ActiveRecord::Base
+    has_many :cakes, through: :cake_ingredient
 end
