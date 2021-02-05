@@ -20,32 +20,24 @@ ActiveRecord::Schema.define(version: 20210203160227) do
 
   create_table "cakes", force: :cascade do |t|
     t.string  "name"
-    t.decimal "price"
     t.decimal "cook_time"
-    t.integer "person_from_id"
-    t.integer "person_to_id"
+    t.integer "receiver_id"
+    t.integer "giver_id"
   end
 
   create_table "gifts", force: :cascade do |t|
     t.string  "name"
     t.decimal "price"
-    t.integer "person_from_id"
-    t.integer "person_to_id"
+    t.integer "receiver_id"
+    t.integer "giver_id"
   end
 
   create_table "ingredients", force: :cascade do |t|
     t.string  "name"
-    t.integer "person_from_id"
-    t.integer "person_to_id"
+    t.decimal "price"
   end
 
-  create_table "invites", force: :cascade do |t|
-    t.string "message"
-    t.string "person_from_id"
-    t.string "person_to_id"
-  end
-
-  create_table "people", force: :cascade do |t|
+  create_table "user", force: :cascade do |t|
     t.string  "name"
     t.boolean "bday"
     t.integer "age"

@@ -1,4 +1,4 @@
-class CakeController < ApplicationController
+class IngredientController < ApplicationController
     get '/cakes' do
         @cakes = Cake.all
         erb :'/cakes/index'
@@ -26,11 +26,11 @@ class CakeController < ApplicationController
         @cake = Cake.create(params["cake"])
  
         unless params[]
-            @cake.titles << Title.create(params["title"])
+            @cake. << .create(params[""])
         end
 
         unless params[]
-            @cake.landmarks << Landmark.create(params["landmark"])
+            @cake. << .create(params[""])
         end
         
         @cake.save
@@ -39,6 +39,20 @@ class CakeController < ApplicationController
     end
 
     patch '/cakes/:id' do
+        @cake = Cake.find(params["id"])
+        @cake.ingredients = Ingredient.find_or_create_by(name: params['landmark']['name'])
+
+        @cake.update(name: params["cake"]["name"])
+        unless params[""]["name"].empty?
+            @cake.ingredients << Title.create(name: params[""]["name"])
         
+        end
+        unless params[""]["name"].empty?
+            @cake.user = User.create(name: params[""]["name"])
+        end
+
+        @cake.save
+
+        redirect "cakes/#{@cake.id}"
     end
 end

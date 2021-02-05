@@ -3,8 +3,8 @@ class CreateGifts < ActiveRecord::Migration
     create_table :gifts do |t|
       t.string :name
       t.decimal :price
-      t.integer :person_from_id
-      t.integer :person_to_id
+      t.references :receiver, references: :users, foreign_key: { to_table: :users }
+      t.references :giver, references: :users, foreign_key: { to_table: :users}
     end
   end
 end

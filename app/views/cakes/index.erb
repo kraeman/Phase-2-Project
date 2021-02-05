@@ -1,0 +1,10 @@
+<h2>All your Cakes</h2>
+
+<% @cakes.each do |cake|%>
+    <%= cake.name%>
+    <br>
+    <%= cake.cook_time%>
+    <br>
+<% end%>
+<a class="button" href="/figures">Figures</a>
+<a class="button" href="/">Home</a>
