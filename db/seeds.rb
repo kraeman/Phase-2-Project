@@ -1,0 +1,1 @@
+Cake.create(name: "Fudgie The Whale", recipe: "Chocolate ice cream, Vanilla ice cream", cook_time: 0)

@@ -1,8 +1,22 @@
 class CakeController < ApplicationController
+    configure do
+        enable :sessions
+        set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
+    end
+
+    def belongs_to_current_user?(item, hash)
+        if hash.values.include?(item)
+            true
+        else
+            false
+        end
+    end
     get '/cakes' do
+        binding.pry
+        @cakes = Cake.all
         @cakes = []
         Cake.all.each do |cake|
-            if cake.belongs_to_current_user?
+            if belongs_to_current_user?(cake, session)
                 @cakes << cake
             end
         end
@@ -22,42 +36,42 @@ class CakeController < ApplicationController
         erb :'/cakes/edit'
     end
 
-    get '/cakes/:id' do
-        @cake = Cakes.find()
-        erb :'/cakes/show'
-    end
+    # get '/cakes/:id' do
+    #     @cake = Cake.find()
+    #     erb :'/cakes/show'
+    # end
 
-    post '/cakes' do
-        @cake = Cake.create(params["cake"])
+    # post '/cakes' do
+    #     @cake = Cake.create(params["cake"])
  
-        unless params[]
-            @cake. << .create(params[""])
-        end
+    #     unless params[]
+    #         @cake. << .create(params[""])
+    #     end
 
-        unless params[]
-            @cake. << .create(params[""])
-        end
+    #     unless params[]
+    #         @cake. << .create(params[""])
+    #     end
         
-        @cake.save
+    #     @cake.save
     
-        redirect to "/cakes/#{@cake.id}"
-    end
+    #     redirect to "/cakes/#{@cake.id}"
+    # end
 
-    patch '/cakes/:id' do
-        @cake = Cake.find(params["id"])
-        @cake.ingredients = Ingredient.find_or_create_by(name: params['']['name'])
+    # patch '/cakes/:id' do
+    #     @cake = Cake.find(params["id"])
+    #     @cake.ingredients = Ingredient.find_or_create_by(name: params['']['name'])
 
-        @cake.update(name: params["cake"]["name"])
-        unless params[""]["name"].empty?
-            @cake.ingredients << Title.create(name: params[""]["name"])
+    #     @cake.update(name: params["cake"]["name"])
+    #     unless params[""]["name"].empty?
+    #         @cake.ingredients << Title.create(name: params[""]["name"])
         
-        end
-        unless params[""]["name"].empty?
-            @cake.user = User.create(name: params[""]["name"])
-        end
+    #     end
+    #     unless params[""]["name"].empty?
+    #         @cake.user = User.create(name: params[""]["name"])
+    #     end
 
-        @cake.save
+    #     @cake.save
 
-        redirect "cakes/#{@cake.id}"
-    end
+    #     redirect "cakes/#{@cake.id}"
+    # end
 end
