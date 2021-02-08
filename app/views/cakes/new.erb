@@ -1,39 +1,48 @@
-<h2>Create New Figure</h2>
+<h2>Create New Cake</h2>
 
-<form action="/figures" method="POST">
-    <label>Figure Name:</label>
+<form action="/cakes" method="POST">
+    <label>Cake Name:</label>
     <br>
-    <input type="text" name="figure[name]" id="figure_name">
+    <input type="text" name="cake[name]" id="cake_name">
 
     <br>
 
-    <h3>Existing titles</h3>
-    <% @titles.each do |title| %>
-    <input type="checkbox" name="figure[title_ids][]" id="title_<%= title.id %>" value="<%= title.id %>"><%= title.name %></input><br>
+    <h3>Party Invitee Baking The Cake</h3>
+    <% @givers.each do |giver| %>
+    <input type="radio" name="giver[giver_ids][]" id="giver_<%= giver.id %>" value="<%= giver.id %>"><%= giver.name %></input><br>
+    <% end %>
+    <br>
+    <%=#link to make a new person here!!!!%>
+
+    <h3>Birthday Person The Cake Is For</h3>
+    <% @receivers.each do |receiver| %>
+    <input type="radio" name="receiver[receiver_ids][]" id="receiver_<%= receiver.id %>" value="<%= receiver.id %>"><%= receiver.name %></input><br>
+    <% end %>
+    <br>
+    <%=#link to make a new person here!!!!%>
+
+    <h3>Existing Ingredients</h3>
+    <% @ingredients.each do |ingredient| %>
+    <input type="checkbox" name="cake[ingredient_ids][]" id="ingredient_<%= ingredient.id %>" value="<%= ingredient.id %>"><%= ingredient.name %></input><br>
     <% end %>
     <br>
 
-    <h3>New titles</h3>
-    <label>Title Name: </label>
+    <%=#link to make a new ingredient here!!!!%>
+
+    <h3>Write The Procedure With Quantities</h3>
+    <label>Recipe: </label>
     <br>
-    <input type="text" name="title[name]" id="new_title"></input>
+    <input type="text" name="recipe[name]" id="new_recipe"></input>
     <br><br>
 
-    <h3>Existing landmarks</h3>
-    <% @landmarks.each do |landmark| %>
-    <input type="checkbox" name="figure[landmark_ids][]" id="landmark_<%= landmark.id %>" value="<%= landmark.id %>"><%= landmark.name %></input><br>
-    <% end %>
-    <br>
+    <%=#link to make a new ingredient here!!!!%>
 
-    <h3>New landmark</h3>
-    <label>Landmark Name: </label>
+    <h3>Add Cook Time</h3>
+    <label>Hours: </label>
     <br>
-    <input type="text" name="landmark[name]" id="new_landmark"></input>
+    <input type="integer" name="recipe[cook_time]" id="new_cook_time"></input>
     <br><br>
 
-    <input type="submit" value="Create New Figure">
+    <input type="submit" value="Create New Cake">
 </form>
  
-
-<a class="button" href="/figures">Figures</a>
-<a class="button" href="/">Home</a>

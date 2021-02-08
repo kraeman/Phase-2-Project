@@ -1,77 +1,68 @@
 class CakeController < ApplicationController
-    configure do
-        enable :sessions
-        set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
-    end
 
-    def belongs_to_current_user?(item, hash)
-        if hash.values.include?(item)
-            true
-        else
-            false
-        end
-    end
     get '/cakes' do
-        binding.pry
-        @cakes = Cake.all
-        @cakes = []
+     
+        @session = session
+        @cakes_for_me = []
+        @cakes_by_me = []
         Cake.all.each do |cake|
-            if belongs_to_current_user?(cake, session)
-                @cakes << cake
+            if belongs_to_current_user_as_receiver?(cake, @session)
+                @cakes_for_me << cake
+            end
+            if belongs_to_current_user_as_giver?(cake, @session)
+                @cakes_by_me << cake
             end
         end
         erb :'/cakes/index'
     end
 
     get '/cakes/new' do
-        @ingredients = Ingredient.all
-        @people = Person.all
+        @users = User.all
         erb :'/cakes/new'
     end
 
     get '/cakes/:id/edit' do
-        @cake = Cake.find()
+        @cake = Cake.find(params["id"])
         @ingredients = Ingredient.all
         @people = Person.all
         erb :'/cakes/edit'
     end
 
-    # get '/cakes/:id' do
-    #     @cake = Cake.find()
-    #     erb :'/cakes/show'
-    # end
+    get '/cakes/:id' do
+        @cake = Cake.find(params["id"])
+        erb :'/cakes/show'
+    end
 
-    # post '/cakes' do
-    #     @cake = Cake.create(params["cake"])
+    post '/cakes' do
+        binding.pry
+        @cake = Cake.create(params["cake"])
  
-    #     unless params[]
-    #         @cake. << .create(params[""])
-    #     end
+        # unless params["cake_name"]
+        #     @cake.giver_id = User.find_or_create_by(name: params["giver"])
+        # end
 
-    #     unless params[]
-    #         @cake. << .create(params[""])
-    #     end
-        
-    #     @cake.save
+        # unless params["cake_recipe"]
+        #     @cake.receiver_id = User.find_or_create_by(name: params["receiver"])
+        # end
     
-    #     redirect to "/cakes/#{@cake.id}"
-    # end
+        redirect "/cakes/#{@cake.id}"
+    end
 
-    # patch '/cakes/:id' do
-    #     @cake = Cake.find(params["id"])
-    #     @cake.ingredients = Ingredient.find_or_create_by(name: params['']['name'])
+    patch '/cakes/:id' do
+        @cake = Cake.find(params["id"])
+        @cake.ingredients = Ingredient.find_or_create_by(name: params['']['name'])
 
-    #     @cake.update(name: params["cake"]["name"])
-    #     unless params[""]["name"].empty?
-    #         @cake.ingredients << Title.create(name: params[""]["name"])
+        @cake.update(name: params["cake"]["name"])
+        unless params[""]["name"].empty?
+            @cake.ingredients << Title.create(name: params[""]["name"])
         
-    #     end
-    #     unless params[""]["name"].empty?
-    #         @cake.user = User.create(name: params[""]["name"])
-    #     end
+        end
+        unless params[""]["name"].empty?
+            @cake.user = User.create(name: params[""]["name"])
+        end
 
-    #     @cake.save
+        @cake.save
 
-    #     redirect "cakes/#{@cake.id}"
-    # end
+        redirect "/cakes/#{@cake.id}"
+    end
 end

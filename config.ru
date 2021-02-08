@@ -10,7 +10,6 @@ end
 use Rack::MethodOverride
 
 use CakeController
-# use IngredientController
-# use GiftController
-# use UserController
+use IngredientController
+use UserController
 run ApplicationController

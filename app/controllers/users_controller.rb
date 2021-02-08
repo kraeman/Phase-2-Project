@@ -1,29 +1,26 @@
 class UserController < ApplicationController
-    get '/cakes' do
-        @cakes = Cake.all
-        erb :'/cakes/index'
-    end
 
-    get '/cakes/new' do
+    get '/users/new' do
         @ingredients = Ingredient.all
         @people = Person.all
         erb :'/cakes/new'
     end
 
-    get '/cakes/:id/edit' do
-        @cake = Cake.find()
-        @ingredients = Ingredient.all
-        @people = Person.all
-        erb :'/cakes/edit'
+    get '/users/:id/edit' do
+        @user = User.find(params["id"])
+        @array = [true, false]
+        erb :'/users/edit'
     end
 
-    get '/cakes/:id' do
-        @cake = Cakes.find()
-        erb :'/cakes/show'
+    get '/users/account' do
+    
+        @user_id = session[:user_id]
+        @user = User.find(@user_id)
+        erb :'/users/account'
     end
 
-    post '/cakes' do
-        @cake = Cake.create(params["cake"])
+    post '/users' do
+        @user = User.create(params["user"])
  
         unless params[]
             @cake. << .create(params[""])
@@ -33,16 +30,16 @@ class UserController < ApplicationController
             @cake. << .create(params[""])
         end
         
-        @cake.save
+        @user.save
     
-        redirect to "/cakes/#{@cake.id}"
+        redirect to "/users/#{@user.id}"
     end
 
-    patch '/cakes/:id' do
-        @cake = Cake.find(params["id"])
-        @cake.ingredients = Ingredient.find_or_create_by(name: params['landmark']['name'])
+    patch '/users/:id' do
+        @user = User.find(params["id"])
+        @user.ingredients = Ingredient.find_or_create_by(name: params['landmark']['name'])
 
-        @cake.update(name: params["cake"]["name"])
+        @user.update(name: params["user"]["name"])
         unless params[""]["name"].empty?
             @cake.ingredients << Title.create(name: params[""]["name"])
         
@@ -51,8 +48,8 @@ class UserController < ApplicationController
             @cake.user = User.create(name: params[""]["name"])
         end
 
-        @cake.save
+        @user.save
 
-        redirect "cakes/#{@cake.id}"
+        redirect "users/#{@user.id}"
     end
 end

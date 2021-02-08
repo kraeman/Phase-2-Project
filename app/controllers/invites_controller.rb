@@ -1,58 +1,55 @@
 class InviteController < ApplicationController
-    get '/cakes' do
-        @cakes = Cake.all
-        erb :'/cakes/index'
+    get '/invites' do
+        @invites = Invite.all
+        erb :'/invites/index'
     end
 
-    get '/cakes/new' do
-        @ingredients = Ingredient.all
+    get '/invites/new' do
         @people = Person.all
-        erb :'/cakes/new'
+        erb :'/invites/new'
     end
 
-    get '/cakes/:id/edit' do
-        @cake = Cake.find()
-        @ingredients = Ingredient.all
+    get '/invites/:id/edit' do
         @people = Person.all
-        erb :'/cakes/edit'
+        erb :'/invites/edit'
     end
 
-    get '/cakes/:id' do
-        @cake = Cakes.find()
-        erb :'/cakes/show'
+    get '/invite/:id' do
+        @invite = Invite.find(params["id"])
+        erb :'/invites/show'
     end
 
-    post '/cakes' do
-        @cake = Cake.create(params["cake"])
+    post '/invite' do
+        @invite = Invite.create(params["invite"])
  
         unless params[]
-            @cake. << .create(params[""])
+            @invite. << .create(params[""])
         end
 
         unless params[]
-            @cake. << .create(params[""])
+            @invite. << .create(params[""])
         end
         
-        @cake.save
+        @invite.save
     
-        redirect to "/cakes/#{@cake.id}"
+        redirect to "/invite/#{@invite.id}"
     end
 
-    patch '/cakes/:id' do
-        @cake = Cake.find(params["id"])
-        @cake.ingredients = Ingredient.find_or_create_by(name: params['landmark']['name'])
+    patch '/invite/:id' do
+        @invite = Invite.find(params["id"])
+        @invite.message = params["message"]
 
-        @cake.update(name: params["cake"]["name"])
+        @invite.update(name: params["invite"]["name"])
         unless params[""]["name"].empty?
-            @cake.ingredients << Title.create(name: params[""]["name"])
+            @invite.ingredients << Title.create(name: params[""]["name"])
         
         end
         unless params[""]["name"].empty?
-            @cake.user = User.create(name: params[""]["name"])
+            @invite.user = User.create(name: params[""]["name"])
         end
 
-        @cake.save
+        @invite.save
 
-        redirect "cakes/#{@cake.id}"
+        redirect "invite/#{@invite.id}"
     end
 end

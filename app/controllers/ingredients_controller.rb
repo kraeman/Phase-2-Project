@@ -1,58 +1,46 @@
 class IngredientController < ApplicationController
-    get '/cakes' do
-        @cakes = Cake.all
+    get '/ingredients' do
+        @ingredients = Ingredient.all
         erb :'/cakes/index'
     end
 
-    get '/cakes/new' do
-        @ingredients = Ingredient.all
-        @people = Person.all
-        erb :'/cakes/new'
+    get '/ingredients/new' do
+        erb :'/ingredients/new'
     end
 
-    get '/cakes/:id/edit' do
-        @cake = Cake.find()
-        @ingredients = Ingredient.all
-        @people = Person.all
-        erb :'/cakes/edit'
+    get '/ingredients/:id/edit' do
+        @ingredient = Ingredient.find(params[id])
+        erb :'/ingredients/edit'
     end
 
-    get '/cakes/:id' do
-        @cake = Cakes.find()
-        erb :'/cakes/show'
+    get '/ingredients/:id' do
+        @ingredient = Ingredient.find(params[id])
+        erb :'/ingredients/show'
     end
 
-    post '/cakes' do
-        @cake = Cake.create(params["cake"])
- 
-        unless params[]
-            @cake. << .create(params[""])
-        end
-
-        unless params[]
-            @cake. << .create(params[""])
-        end
+    post '/ingredients' do
+        @ingredient = Ingredient.create(params["ingredient"])
         
-        @cake.save
+        @ingredient.save
     
-        redirect to "/cakes/#{@cake.id}"
+        redirect to "/ingredients/#{@ingredient.id}"
     end
 
-    patch '/cakes/:id' do
-        @cake = Cake.find(params["id"])
-        @cake.ingredients = Ingredient.find_or_create_by(name: params['landmark']['name'])
+    patch '/ingredients/:id' do
+        @ingredient = Ingredient.find(params["id"])
+        @ingredient.ingredients = Ingredient.find_or_create_by(name: params['landmark']['name'])
 
-        @cake.update(name: params["cake"]["name"])
+        @ingredient.update(name: params["ingredient"]["name"])
         unless params[""]["name"].empty?
-            @cake.ingredients << Title.create(name: params[""]["name"])
+            @ingredient.ingredients << Title.create(name: params[""]["name"])
         
         end
-        unless params[""]["name"].empty?
-            @cake.user = User.create(name: params[""]["name"])
+        unless params["ingredient"]["price"].empty?
+            @ingredient.price = params["ingredient"]["price"]
         end
 
-        @cake.save
+        @ingredient.save
 
-        redirect "cakes/#{@cake.id}"
+        redirect "ingredients/#{@ingredient.id}"
     end
 end

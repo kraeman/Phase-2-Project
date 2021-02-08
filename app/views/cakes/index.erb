@@ -1,13 +1,34 @@
-<h2>All your Cakes</h2>
+<h2>All Your Cakes</h2>
 
-<% @cakes.each do |cake|%>
+<% unless @cakes_by_me == []%>
+<% @cakes_by_me.each do |cake|%>
+   <%= cake.name%>
+    <br>
+    <%= cake.cook_time%>
+    <br>
+    <%= cake.recipe%>
+    <br>
+    <%=User.find(cake.receiver_id).name%>
+    <br>
+    <a class="button" href="/cakes/#{cake.id}">View</a>
+<% end%>
+
+<% end%>
+
+<%unless @cakes_for_me == []%>
+ <%@cakes_for_me.each do |cake|%>
     <%= cake.name%>
     <br>
     <%= cake.cook_time%>
     <br>
     <%= cake.recipe%>
     <br>
+    <%= User.find(cake.giver_id).name%>
+    <br>
+    <a class="button" href="/cakes/<%=cake.id%>">View</a>
 <% end%>
-<a class="button" href="/cakes">Cakes</a>
+<% end%>
 
-<a class="button" href="/">Home</a>
+<a class="button" href="/users/account">Home</a>
+<a class="button" href="/logout">Log out</a>
+<a class="button" href="/cakes/new">New Cake</a>
