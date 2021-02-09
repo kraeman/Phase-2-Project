@@ -13,9 +13,10 @@ class UserController < ApplicationController
     end
 
     get '/users/account' do
-    
+
         @user_id = session[:user_id]
         @user = User.find(@user_id)
+      
         erb :'/users/account'
     end
 

@@ -1,14 +1,22 @@
 <h2>Create New User</h2>
 
-<form action="/users/index" method="POST">
+<form action="/signup" method="POST">
     <input id="hidden" type="hidden" name="_method" value="post">
-    <label>User Name:</label>
+    <label>Name:</label>
     <br>
     <input type="text" name="user[name]" id="user_name">
 
     <br>
-    
+    <label>Username:</label>
+    <br>
+    <input type="text" name="user[username]" id="user_name">
 
+    <br>
+    <label>User password:</label>
+    <br>
+    <input type="text" name="user[password]" id="user_name">
+
+    <br>
 
     <label>Age:</label>
     <br>

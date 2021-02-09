@@ -46,7 +46,8 @@ class ApplicationController < Sinatra::Base
     end
 
     post '/signup' do
-      @user = User.find_or_create_by(username: params[:username], password: params[:password])
+      @user = User.create(username: params[:user][:username], password: params[:user][:password],name: params[:user][:name], birth_date: params[:user][:birth_date], age: params[:user][:age])
+      binding.pry
       if @user
         session[:user_id] = @user.id
         redirect "/users/account"

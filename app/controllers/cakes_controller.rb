@@ -5,6 +5,7 @@ class CakeController < ApplicationController
         @session = session
         @cakes_for_me = []
         @cakes_by_me = []
+     
         Cake.all.each do |cake|
             if belongs_to_current_user_as_receiver?(cake, @session)
                 @cakes_for_me << cake

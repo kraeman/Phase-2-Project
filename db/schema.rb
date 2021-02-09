@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(version: 20210203154609) do
     t.string  "username"
     t.string  "password"
     t.string  "name"
-    t.boolean "bday"
     t.integer "age"
     t.string  "birth_date"
   end
