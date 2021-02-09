@@ -19,16 +19,20 @@ class UserController < ApplicationController
         erb :'/users/account'
     end
 
-    post '/users' do
+    get '/users/signup' do
+    
+        erb :'/users/signup'
+    end
+
+    get '/users/:id' do
+       
+        @user = User.find(params["id"])
+        erb :'/users/account'
+    end
+
+    post '/users/index' do
         @user = User.create(params["user"])
  
-        unless params[]
-            @cake. << .create(params[""])
-        end
-
-        unless params[]
-            @cake. << .create(params[""])
-        end
         
         @user.save
     
@@ -37,16 +41,9 @@ class UserController < ApplicationController
 
     patch '/users/:id' do
         @user = User.find(params["id"])
-        @user.ingredients = Ingredient.find_or_create_by(name: params['landmark']['name'])
 
-        @user.update(name: params["user"]["name"])
-        unless params[""]["name"].empty?
-            @cake.ingredients << Title.create(name: params[""]["name"])
-        
-        end
-        unless params[""]["name"].empty?
-            @cake.user = User.create(name: params[""]["name"])
-        end
+        @user.update(name: params["user"]["name"], age: params["user"]["age"], birth_date: params["user"]["birth_date"])
+    
 
         @user.save
 

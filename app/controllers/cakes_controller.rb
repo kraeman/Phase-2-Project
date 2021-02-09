@@ -23,46 +23,37 @@ class CakeController < ApplicationController
 
     get '/cakes/:id/edit' do
         @cake = Cake.find(params["id"])
-        @ingredients = Ingredient.all
-        @people = Person.all
+        @users = User.all
         erb :'/cakes/edit'
     end
 
     get '/cakes/:id' do
+       
         @cake = Cake.find(params["id"])
         erb :'/cakes/show'
     end
 
     post '/cakes' do
-        binding.pry
-        @cake = Cake.create(params["cake"])
- 
-        # unless params["cake_name"]
-        #     @cake.giver_id = User.find_or_create_by(name: params["giver"])
-        # end
 
-        # unless params["cake_recipe"]
-        #     @cake.receiver_id = User.find_or_create_by(name: params["receiver"])
-        # end
+        @cake = Cake.create(params["cake"])
+
     
         redirect "/cakes/#{@cake.id}"
     end
 
     patch '/cakes/:id' do
-        @cake = Cake.find(params["id"])
-        @cake.ingredients = Ingredient.find_or_create_by(name: params['']['name'])
-
-        @cake.update(name: params["cake"]["name"])
-        unless params[""]["name"].empty?
-            @cake.ingredients << Title.create(name: params[""]["name"])
         
-        end
-        unless params[""]["name"].empty?
-            @cake.user = User.create(name: params[""]["name"])
-        end
+        @cake = Cake.find(params["id"])
+
+        @cake.update(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: params["cake"]["cook_time"],receiver_id: params["cake"]["receiver_id"],giver_id: params["cake"]["giver_id"])
 
         @cake.save
 
         redirect "/cakes/#{@cake.id}"
+    end
+
+    delete '/cakes/:id' do
+        Cake.delete(params["id"])
+        redirect "/cakes"
     end
 end

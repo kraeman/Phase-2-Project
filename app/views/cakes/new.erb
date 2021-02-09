@@ -8,39 +8,29 @@
     <br>
 
     <h3>Party Invitee Baking The Cake</h3>
-    <% @givers.each do |giver| %>
-    <input type="radio" name="giver[giver_ids][]" id="giver_<%= giver.id %>" value="<%= giver.id %>"><%= giver.name %></input><br>
+    <% @users.each do |user| %>
+    <input type="radio" name="cake[giver_id]" id="giver_<%= user.id %>" value="<%= user.id %>"><%= user.name %></input><br>
     <% end %>
     <br>
-    <%=#link to make a new person here!!!!%>
+   
 
     <h3>Birthday Person The Cake Is For</h3>
-    <% @receivers.each do |receiver| %>
-    <input type="radio" name="receiver[receiver_ids][]" id="receiver_<%= receiver.id %>" value="<%= receiver.id %>"><%= receiver.name %></input><br>
+    <% @users.each do |user| %>
+    <input type="radio" name="cake[receiver_id]" id="user<%= user.id %>" value="<%= user.id %>"><%= user.name %></input><br>
     <% end %>
     <br>
-    <%=#link to make a new person here!!!!%>
-
-    <h3>Existing Ingredients</h3>
-    <% @ingredients.each do |ingredient| %>
-    <input type="checkbox" name="cake[ingredient_ids][]" id="ingredient_<%= ingredient.id %>" value="<%= ingredient.id %>"><%= ingredient.name %></input><br>
-    <% end %>
-    <br>
-
-    <%=#link to make a new ingredient here!!!!%>
 
     <h3>Write The Procedure With Quantities</h3>
     <label>Recipe: </label>
     <br>
-    <input type="text" name="recipe[name]" id="new_recipe"></input>
+    <input type="text" name="cake[recipe]" id="new_recipe"></input>
     <br><br>
 
-    <%=#link to make a new ingredient here!!!!%>
 
     <h3>Add Cook Time</h3>
     <label>Hours: </label>
     <br>
-    <input type="integer" name="recipe[cook_time]" id="new_cook_time"></input>
+    <input type="integer" name="cake[cook_time]" id="new_cook_time"></input>
     <br><br>
 
     <input type="submit" value="Create New Cake">

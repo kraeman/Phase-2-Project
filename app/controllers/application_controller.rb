@@ -31,6 +31,8 @@ class ApplicationController < Sinatra::Base
       
       erb :'sessions/login'
     end
+
+    
   
 
     post '/sessions' do

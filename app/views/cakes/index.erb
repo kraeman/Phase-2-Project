@@ -26,8 +26,13 @@
     <%= User.find(cake.giver_id).name%>
     <br>
     <a class="button" href="/cakes/<%=cake.id%>">View</a>
+    <form onsubmit="confirm('Are you sure you want to delete the following cake?')" action="/cakes/<%= cake.id %>" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Delete</button>
+    </form>
 <% end%>
 <% end%>
+
 
 <a class="button" href="/users/account">Home</a>
 <a class="button" href="/logout">Log out</a>

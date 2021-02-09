@@ -1,0 +1,31 @@
+<h2>Create New User</h2>
+
+<form action="/users/index" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="post">
+    <label>User Name:</label>
+    <br>
+    <input type="text" name="user[name]" id="user_name">
+
+    <br>
+    
+
+
+    <label>Age:</label>
+    <br>
+    <input type="text" name="user[age]" id="user_name">
+
+    <br>
+
+    <label>Birthdate:</label>
+    <br>
+    <input type="text" name="user[birth_date]" id="user_name">
+
+    <br>
+
+    
+    
+    <input type="submit" value="Create User">
+  </form> 
+
+
+<a class="button" href="/users/account">Home</a>

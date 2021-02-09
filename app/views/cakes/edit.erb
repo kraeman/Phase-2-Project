@@ -7,62 +7,37 @@
     <input type="text" name="cake[name]" id="cake_name" value="<%= @cake.name %>">
 
     <br>
-    <p>Select an existing baker or create a new one below.</p>
+    
 
 
     <h3>Existing bakers</h3>
-    <% @bakers.each do |baker| %>
-      <input type="radio" name="cake[baker_ids][]" id="<%= baker.id %>" value="<%= baker.id %>"><%= baker.name %></input><br>
+    <% @users.each do |user| %>
+      <input type="radio" name="cake[giver_id]" id="<%= user.id %>" value="<%= user.id %>"><%= user.name %></input><br>
     <% end %>
     <br>
 
     
-    <label>Baker Name: </label>
-    <br>
-    <input type="text" name="baker[name]" id="baker_name"></input>
-    <br>
-    <label>Baker Birth Date: </label>
-    <input type="text" name="baker[birthdate]" id="baker_birthdate"></input>
-    <br>
-    <label>Baker Current Age: </label>
-    <input type="text" name="baker[age]" id="baker_age"></input>
-    
-    <br><br>
 
 
     <h3>Existing Bday People</h3>
-    <% @bakers.each do |baker| %>
-      <input type="radio" name="cake[baker_ids][]" id="<%= baker.id %>" value="<%= baker.id %>"><%= baker.name %></input><br>
+    <% @users.each do |user| %>
+      <input type="radio" name="cake[receiver_id]" id="<%= user.id %>" value="<%= user.id %>"><%= user.name %></input><br>
     <% end %>
     <br>
 
-    
-    <label>Bday Person Name: </label>
-    <br>
-    <input type="text" name="bday_person[name]" id="bday_person_name"></input>
-    <br>
-    <label>Bday Person Birth Date: </label>
-    <input type="text" name="bday_person[birthdate]" id="bday_person_birthdate"></input>
-    <br>
-    <label>Baker Current Age: </label>
-    <input type="text" name="bday_person[age]" id="bday_person_age"></input>
-    
     <br><br>
 
-    <p>Select existing ingredients or create a new one below.</p>
-
-    <h3>Existing Ingredients</h3>
-    <% @ingredients.each do |ingredient| %>
-    <input type="checkbox" name="cake[ingredient_ids][]" id="ingredient_<%= ingredient.id %>" value="<%= ingredient.id %>"><%= ingredient.name %></input><br>
-    <% end %>
+    
     <br>
+    <input type="text" name="cake[recipe]" id="cake_recipe">
 
-    <%=#link to make a new ingredient here!!!!%>
+    <br>
+    
 
 
     <label>Hours: </label>
     <br>
-    <input type="integer" name="recipe[cook_time]" id="new_cook_time"></input>
+    <input type="integer" name="cake[cook_time]" id="new_cook_time"></input>
     <br><br>
 
     <input type="submit" value="Edit Cake">
