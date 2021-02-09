@@ -14,6 +14,7 @@ class CakeController < ApplicationController
                 @cakes_by_me << cake
             end
         end
+ 
         erb :'/cakes/index'
     end
 
