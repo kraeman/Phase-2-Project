@@ -27,9 +27,9 @@
 
     <br><br>
 
-    
+    <label>Recipe: </label>
     <br>
-    <input type="text" name="cake[recipe]" id="cake_recipe">
+    <input type="text" name="cake[recipe]" id="cake_recipe" value="<%= @cake.recipe %>">
 
     <br>
     
@@ -37,11 +37,11 @@
 
     <label>Hours: </label>
     <br>
-    <input type="integer" name="cake[cook_time]" id="new_cook_time"></input>
+    <input type="integer" name="cake[cook_time]" id="new_cook_time" value="<%= @cake.cook_time %>"></input>
     <br><br>
 
     <input type="submit" value="Edit Cake">
   </form> 
 
-<a class="button" href="/figures">Landmarks</a>
-<a class="button" href="/">Home</a>
+
+  <a class="button" href="/users/account">Home</a>

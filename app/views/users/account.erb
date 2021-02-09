@@ -1,6 +1,9 @@
 
+  <label>Name: </label>
   <h1>  <%= @user.name %> </h1>
+  <label>Age: </label>
   <h1>   <%= @user.age %> </h1>
+  <label>Birth Date: </label>
   <h1>  <%= @user.birth_date %> </h1>
 
 
@@ -11,5 +14,5 @@
 <a class="button" href="/users/<%=@user.id%>/edit">Edit Profile</a>
 
 <br>
-<a class="button" href="/">Log Out</a>
+<a class="button" href="/logout">Log Out</a>
 

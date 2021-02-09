@@ -2,12 +2,16 @@
 <h3>Cakes I Am Baking</h3>
 <% unless @cakes_by_me == []%>
 <% @cakes_by_me.each do |cake|%>
+    <h4>Cake Name:</h4>
    <%= cake.name%>
     <br>
+    <h4>Cake Cook Time (Hours):</h4>
     <%= cake.cook_time%>
     <br>
+    <h4>Cake Recipe</h4>
     <%= cake.recipe%>
     <br>
+    <h4>Cake Is For:</h4>
     <%=User.find(cake.receiver_id).name%>
     <br>
     <a class="button" href="/cakes/<%=cake.id%>">View</a>
@@ -21,12 +25,16 @@
 <h3>Cakes For Me</h3>
 <%unless @cakes_for_me == []%>
  <%@cakes_for_me.each do |cake|%>
+    <h4>Cake Name:</h4>
     <%= cake.name%>
     <br>
+    <h4>Cake Cook Time (Hours):</h4>
     <%= cake.cook_time%>
     <br>
+    <h4>Cake Recipe</h4>
     <%= cake.recipe%>
     <br>
+    <h4>Cake Baked By:</h4>
     <%= User.find(cake.giver_id).name%>
     <br>
     <a class="button" href="/cakes/<%=cake.id%>">View</a>
