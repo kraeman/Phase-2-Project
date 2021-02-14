@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20210203154609) do
     t.string  "password"
     t.string  "name"
     t.integer "age"
-    t.string  "birth_date"
+    t.date    "birth_date"
   end
 
 end

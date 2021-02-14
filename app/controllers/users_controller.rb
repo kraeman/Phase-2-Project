@@ -1,13 +1,13 @@
 class UserController < ApplicationController
 
     get '/users/new' do
-        @ingredients = Ingredient.all
         @people = Person.all
         erb :'/cakes/new'
     end
 
     get '/users/:id/edit' do
         @user = User.find(params["id"])
+        #why array rather thaan boolean?
         @array = [true, false]
         erb :'/users/edit'
     end

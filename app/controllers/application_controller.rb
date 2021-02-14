@@ -1,34 +1,32 @@
 class ApplicationController < Sinatra::Base
     configure do
       enable :sessions
-      set :session_secret, "secret"
+      set :session_secret, ENV["SECRET"]
     end
     set :views, proc { File.join(root, '../views/') }
     register Sinatra::Twitter::Bootstrap::Assets
 
   
-    def self.current_user(hash)
-      @id = hash[:user_id]
-      return User.find(@id)
-    end
+    # def self.current_user(hash)
+    #   @id = hash[:user_id]
+    #   return User.find(@id)
+    # end
 
-    def self.is_logged_in?(hash)
-      @id = hash[:user_id]
-      @user = User.find(@id)
-      if @user
-          true
-      else
-          false
-      end
-    end
+    # def self.is_logged_in?(hash)
+    #   @id = hash[:user_id]
+    #   @user = User.find(@id)
+    #   if @user
+    #       true
+    #   else
+    #       false
+    #   end
+    # end
 
     get '/' do
       erb :"application/index"
     end
 
-    get '/sessions/login' do
-
-      
+    get '/login' do
       erb :'sessions/login'
     end
 
@@ -38,24 +36,26 @@ class ApplicationController < Sinatra::Base
     post '/sessions' do
     
       @user = User.find_by(username: params[:username], password: params[:password])
-
+      
       if @user
         session[:user_id] = @user.id
         redirect "/users/account"
       end
-      erb :error
+      erb :login_error
     end
 
     post '/signup' do
       unless User.find_by(username: params[:user][:username])
-        @user = User.create(username: params[:user][:username], password: params[:user][:password],name: params[:user][:name], birth_date: params[:user][:birth_date], age: params[:user][:age])
+        @user = User.create(username: params[:user][:username], password: params[:user][:password],name: params[:user][:name], birth_date: params[:user][:birth_date])
         if @user
+          #WHERE I LEFT OFFFFF
+          @user.age = age(@user.birth_date)
           session[:user_id] = @user.id
           redirect "/users/account"
         end
       end
       
-      erb :error
+      erb :signup_error
     end
 
     get '/logout' do
@@ -64,6 +64,11 @@ class ApplicationController < Sinatra::Base
     end
   
 
+    def age(dob)
+      now = Time.now.utc
+      now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+    end
+      
     def belongs_to_current_user_as_receiver?(item, hash)
    
       @id = hash[:user_id]
