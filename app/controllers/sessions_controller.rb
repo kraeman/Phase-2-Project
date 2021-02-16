@@ -2,7 +2,7 @@
 class SessionsController < ApplicationController
     get "/login" do
         redirect "/cakes" if logged_in?
-        erb :"/sessions/login.html"
+        erb :"/sessions/login"
     end
 
     post '/login' do

@@ -10,13 +10,18 @@ class UsersController < ApplicationController
             session["user_id"] = user.id
             redirect '/users/:id'
         else
+            #flash
             redirect "/users/new"
         end
     end
 
     get '/users/:id' do
         @user = User.find(params["id"])
-        erb :'/users/show'
+        if @user == current_user(session)
+            erb :'/users/show'
+        else
+            #error
+        end
     end
 
     get '/users/:id/edit' do
