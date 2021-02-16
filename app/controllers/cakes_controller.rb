@@ -51,7 +51,9 @@ class CakesController < ApplicationController
 
     get '/cakes/:id/edit' do
         cake = Cake.find(params["id"])
-        if cake.owner_id == current_user(session).id
+        user = current_user(session)
+        if cake.owner_id == user.id
+            @user = user
             @cake = cake
             erb :'/cakes/edit'
         else
