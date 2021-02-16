@@ -26,35 +26,26 @@ class UsersController < ApplicationController
 
     get '/users/:id/edit' do
         @user = User.find(params["id"])
-        #why array rather thaan boolean?
+        #why array rather than boolean?
         @array = [true, false]
         erb :'/users/edit'
     end
 
-    get '/users/account' do
-
-        @user_id = session[:user_id]
-        @user = User.find(@user_id)
-      
-        erb :'/users/account'
-    end
-
     get '/users/signup' do
-    
-        erb :'/users/signup'
+        erb :'/users/new'
     end
 
     
 
 
     patch '/users/:id' do
-        @user = User.find(params["id"])
+        user = User.find(params["id"])
 
-        @user.update(name: params["user"]["name"], age: params["user"]["age"], birth_date: params["user"]["birth_date"])
+        user.update(name: params["user"]["name"], age: params["user"]["age"], birth_date: params["user"]["birth_date"])
     
 
-        @user.save
+        user.save
 
-        redirect "users/#{@user.id}"
+        redirect "users/#{user.id}"
     end
 end
