@@ -11,7 +11,6 @@ class UsersController < ApplicationController
                 session["user_id"] = user.id
                 redirect "/users/#{user.id}"
             else
-                #flash
                 redirect "/users/new"
             end
         else
@@ -20,19 +19,23 @@ class UsersController < ApplicationController
     end
 
     get '/users/:id' do
-        @user = User.find(params["id"])
-        if @user == current_user(session)
+        user = User.find(params["id"])
+        if user == current_user(session)
+            @user = user
             erb :'/users/show'
         else
-            #error
+            erb :'error'
         end
     end
 
     get '/users/:id/edit' do
-        @user = User.find(params["id"])
-        #why array rather than boolean?
-        @array = [true, false]
-        erb :'/users/edit'
+        user = User.find(params["id"])
+        if user == current_user(session)
+            @user = user
+            erb :'/users/edit'
+        else
+            erb :'error'
+        end
     end
 
     get '/users/signup' do
