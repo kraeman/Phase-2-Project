@@ -29,10 +29,11 @@ class ApplicationController < Sinatra::Base
         end
       end
 
-      # def age(dob)
-      #   now = Time.now.utc
-      #   now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-      # end
+      def age(dob)
+        now = Time.now
+        years = now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+        return years
+      end
         
       def belongs_to_current_user?(item, hash)
           id = hash[:user_id]

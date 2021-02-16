@@ -7,6 +7,8 @@ class UsersController < ApplicationController
     post '/users' do
         if params["user"]["name"] != "" && params["user"]["birth_date"] != "" && params["user"]["username"] != "" && params["user"]["password"] != ""
             user = User.create(params["user"])
+            user.age = age(user.birth_date)
+            user.save
             if user.valid?
                 session["user_id"] = user.id
                 redirect "/users/#{user.id}"
@@ -49,11 +51,9 @@ class UsersController < ApplicationController
         user = User.find(params["id"])
         if params["user"]["name"] != "" && params["user"]["birth_date"] != ""
 
-            user.update(name: params["user"]["name"], age: params["user"]["age"], birth_date: params["user"]["birth_date"])
-        
-
-            # user.save
-
+            user.update(name: params["user"]["name"], birth_date: params["user"]["birth_date"])
+            user.age = age(user.birth_date)
+            user.save
             redirect "users/#{user.id}"
         else
             @user = user
