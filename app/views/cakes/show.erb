@@ -16,6 +16,11 @@
 <h4>Cake Recipe:</h4>
 <%= @cake.recipe%>
 <br>
+<form onsubmit="confirm('Are you sure you want to delete the following cake?')" action="/cakes/<%=@cake.id%>/delete" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Delete</button>
+</form>
+<br>
 
 <a class="button" href="/cakes">All Cakes</a>
 

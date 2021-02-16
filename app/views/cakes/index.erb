@@ -7,7 +7,6 @@
 </head>
 <body>
 <h2>All Your Cakes</h2>
-<h3>Cakes I Am Baking</h3>
 <% unless @cakes_by_me == []%>
 <% @cakes_by_me.each do |cake|%>
     <h4>Cake Name:</h4>
@@ -19,39 +18,15 @@
     <h4>Cake Recipe</h4>
     <%= cake.recipe%>
     <br>
-    <h4>Cake Is For:</h4>
-    <%=User.find(cake.receiver_id).name%>
-    <br>
     <a class="button" href="/cakes/<%=cake.id%>">View</a>
-    <form onsubmit="confirm('Are you sure you want to delete the following cake?')" action="/cakes/<%= cake.id %>" method="POST">
+    <form onsubmit="confirm('Are you sure you want to delete the following cake?')" action="/cakes/<%= cake.id %>/delete" method="POST">
         <input type="hidden" name="_method" value="DELETE">
         <button type="submit">Delete</button>
     </form>
 <% end%>
 
 <% end%>
-<h3>Cakes For Me</h3>
-<%unless @cakes_for_me == []%>
- <%@cakes_for_me.each do |cake|%>
-    <h4>Cake Name:</h4>
-    <%= cake.name%>
-    <br>
-    <h4>Cake Cook Time (Hours):</h4>
-    <%= cake.cook_time%>
-    <br>
-    <h4>Cake Recipe</h4>
-    <%= cake.recipe%>
-    <br>
-    <h4>Cake Baked By:</h4>
-    <%= User.find(cake.giver_id).name%>
-    <br>
-    <a class="button" href="/cakes/<%=cake.id%>">View</a>
-    <form onsubmit="confirm('Are you sure you want to delete the following cake?')" action="/cakes/<%= cake.id %>" method="POST">
-        <input type="hidden" name="_method" value="DELETE">
-        <button type="submit">Delete</button>
-    </form>
-<% end%>
-<% end%>
+
 
 
 <a class="button" href="/users/<%=@user.id%>">Home</a>

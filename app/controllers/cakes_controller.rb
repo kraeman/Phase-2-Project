@@ -6,14 +6,10 @@ class CakesController < ApplicationController
     get '/cakes' do
         redirect_if_not_logged_in(session)
         @user = current_user(session)
-        @cakes_for_me = []
         @cakes_by_me = []
      
         Cake.all.each do |cake|
-            if belongs_to_current_user_as_receiver?(cake, session)
-                @cakes_for_me << cake
-            end
-            if belongs_to_current_user_as_giver?(cake, session)
+            if belongs_to_current_user?(cake, session)
                 @cakes_by_me << cake
             end
         end
@@ -21,38 +17,59 @@ class CakesController < ApplicationController
     end
 
     get '/cakes/new' do
-        # @users = User.all
+        @user = current_user(session)
         erb :'/cakes/new'
     end
 
     post '/cakes' do
-
-        cake = Cake.create(params["cake"])
-        if cake.valid? 
-            redirect "/cakes/#{cake.id}"
+   
+        if params["cake"]["name"] != "" && params["cake"]["recipe"] != "" && params["cake"]["cook_time"] != ""
+            cake = Cake.create(params["cake"])
+            cake.owner_id = current_user(session).id
+            cake.save
+            if cake.valid? 
+                redirect "/cakes/#{cake.id}"
+            else
+                redirect "/cakes/new"
+            end
         else
-            redirect "/cakes/new"
+            erb :"/new_cake_error"
         end
     end
 
     get '/cakes/:id' do
-        @user = current_user(session)
-        @cake = Cake.find(params["id"])
-        erb :'/cakes/show'
+        user = current_user(session)
+        cake = Cake.find(params["id"])
+        if cake.owner_id == user.id
+            @user = user
+            @cake = cake
+            erb :'/cakes/show'
+        else
+            erb :'error'
+        end
     end
 
     get '/cakes/:id/edit' do
-        @cake = Cake.find(params["id"])
-        # @users = User.all
-        erb :'/cakes/edit'
+        cake = Cake.find(params["id"])
+        if cake.owner_id == current_user(session).id
+            @cake = cake
+            erb :'/cakes/edit'
+        else
+            erb :'error'
+        end
     end
 
     
     patch '/cakes/:id' do
         cake = Cake.find(params["id"])
-        cake.update(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: params["cake"]["cook_time"],receiver_id: params["cake"]["receiver_id"],giver_id: params["cake"]["giver_id"])
-        # cake.save
-        redirect "/cakes/#{cake.id}"
+        if params["cake"]["name"] != "" && params["cake"]["recipe"] != "" && params["cake"]["cook_time"] != ""
+            cake.update(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: params["cake"]["cook_time"])
+            # cake.save
+            redirect "/cakes/#{cake.id}"
+        else
+            @cake = cake
+            erb :"/edit_cake_error"
+        end
     end
 
     delete '/cakes/:id/delete' do

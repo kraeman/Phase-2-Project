@@ -34,23 +34,15 @@ class ApplicationController < Sinatra::Base
       #   now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
       # end
         
-      def belongs_to_current_user_as_receiver?(item, hash)
+      def belongs_to_current_user?(item, hash)
           id = hash[:user_id]
-          if item.receiver_id == id
+          if item.owner_id == id
               true
           else
               false
           end
       end
 
-      def belongs_to_current_user_as_giver?(item, hash)
-        id = hash[:user_id]
-          if item.giver_id == id
-              true
-          else
-              false
-          end
-      end
 
       def redirect_if_not_logged_in(hash)
         if !logged_in?(hash)
