@@ -1,8 +1,22 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
 
     get '/users/new' do
-        @people = Person.all
-        erb :'/cakes/new'
+        erb :'/users/new'
+    end
+
+    post '/users' do
+        user = User.create(params["user"])
+        if user.valid?
+            session["user_id"] = user.id
+            redirect '/users/:id'
+        else
+            redirect "/users/new"
+        end
+    end
+
+    get '/users/:id' do
+        @user = User.find(params["id"])
+        erb :'/users/show'
     end
 
     get '/users/:id/edit' do
@@ -25,20 +39,8 @@ class UserController < ApplicationController
         erb :'/users/signup'
     end
 
-    get '/users/:id' do
-       
-        @user = User.find(params["id"])
-        erb :'/users/account'
-    end
-
-    post '/users/index' do
-        @user = User.create(params["user"])
- 
-        
-        @user.save
     
-        redirect to "/users/#{@user.id}"
-    end
+
 
     patch '/users/:id' do
         @user = User.find(params["id"])

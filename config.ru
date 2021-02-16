@@ -9,6 +9,6 @@ end
 
 use Rack::MethodOverride
 
-use CakeController
-use UserController
+use CakesController
+use UsersController
 run ApplicationController

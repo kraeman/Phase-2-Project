@@ -1,93 +1,70 @@
 class ApplicationController < Sinatra::Base
     configure do
+      set :public_folder, 'public'
       enable :sessions
       set :session_secret, ENV["SECRET"]
     end
     set :views, proc { File.join(root, '../views/') }
     register Sinatra::Twitter::Bootstrap::Assets
 
-  
-    # def self.current_user(hash)
-    #   @id = hash[:user_id]
-    #   return User.find(@id)
-    # end
-
-    # def self.is_logged_in?(hash)
-    #   @id = hash[:user_id]
-    #   @user = User.find(@id)
-    #   if @user
-    #       true
-    #   else
-    #       false
-    #   end
-    # end
-
     get '/' do
-      erb :"application/index"
+      erb :"welcome.erb"
     end
 
     get '/login' do
-      erb :'sessions/login'
+      erb :"sessions/login"
     end
 
-    
-  
-
-    post '/sessions' do
-    
-      @user = User.find_by(username: params[:username], password: params[:password])
-      
-      if @user
-        session[:user_id] = @user.id
-        redirect "/users/account"
+    helpers do
+      def current_user(hash)
+        id = hash[:user_id]
+        return User.find(id)
       end
-      erb :login_error
-    end
 
-    post '/signup' do
-      unless User.find_by(username: params[:user][:username])
-        @user = User.create(username: params[:user][:username], password: params[:user][:password],name: params[:user][:name], birth_date: params[:user][:birth_date])
-        if @user
-          #WHERE I LEFT OFFFFF
-          @user.age = age(@user.birth_date)
-          session[:user_id] = @user.id
-          redirect "/users/account"
-        end
-      end
-      
-      erb :signup_error
-    end
-
-    get '/logout' do
-      session.clear
-      redirect '/'
-    end
-  
-
-    def age(dob)
-      now = Time.now.utc
-      now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-    end
-      
-    def belongs_to_current_user_as_receiver?(item, hash)
-   
-      @id = hash[:user_id]
-      @user = User.find(@id)
-        if item.receiver_id == @id
+      def logged_in?(hash)
+        user = current_user(hash)
+        if user
             true
         else
             false
         end
-    end
+      end
 
-    def belongs_to_current_user_as_giver?(item, hash)
-      @id = hash[:user_id]
-      @user = User.find(@id)
-        if item.giver_id == @id
-            true
-        else
-            false
+      # def age(dob)
+      #   now = Time.now.utc
+      #   now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+      # end
+        
+      def belongs_to_current_user_as_receiver?(item, hash)
+          id = hash[:user_id]
+          if item.receiver_id == id
+              true
+          else
+              false
+          end
+      end
+
+      def belongs_to_current_user_as_giver?(item, hash)
+        id = hash[:user_id]
+          if item.giver_id == id
+              true
+          else
+              false
+          end
+      end
+
+      def redirect_if_not_logged_in
+        if !logged_in?
+          redirect "/login" if !logged_in?
         end
+      end
+
+      # def not_the_owner?(item)
+      #   if !belongs_to_current_user_as_giver && !belongs_to_current_user_as_receiver
+      #     redirect '/cakes' 
+      #   end
+      # end
+
     end
   end
   
