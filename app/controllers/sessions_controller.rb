@@ -7,9 +7,9 @@ class SessionsController < ApplicationController
 
     post '/login' do
         user = User.find_by(username: params[:username], password: params[:password])
-        if user && user.authenticate(params["user"]["password"])
+        if user
             session[:user_id] = user.id
-            redirect "/users/:id"
+            redirect "/users/#{user.id}"
         else
             erb :login_error
         end

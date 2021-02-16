@@ -5,10 +5,11 @@ class UsersController < ApplicationController
     end
 
     post '/users' do
+
         user = User.create(params["user"])
         if user.valid?
             session["user_id"] = user.id
-            redirect '/users/:id'
+            redirect "/users/#{user.id}"
         else
             #flash
             redirect "/users/new"

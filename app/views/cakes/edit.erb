@@ -15,25 +15,6 @@
     <input type="text" name="cake[name]" id="cake_name" value="<%= @cake.name %>">
 
     <br>
-    
-
-
-    <h3>Existing bakers</h3>
-    <% @users.each do |user| %>
-      <input type="radio" name="cake[giver_id]" id="<%= user.id %>" value="<%= user.id %>"><%= user.name %></input><br>
-    <% end %>
-    <br>
-
-    
-
-
-    <h3>Existing Bday People</h3>
-    <% @users.each do |user| %>
-      <input type="radio" name="cake[receiver_id]" id="<%= user.id %>" value="<%= user.id %>"><%= user.name %></input><br>
-    <% end %>
-    <br>
-
-    <br><br>
 
     <label>Recipe: </label>
     <br>

@@ -4,8 +4,8 @@ class CakesController < ApplicationController
     # end
 
     get '/cakes' do
-        redirect_if_not_logged_in
-
+        redirect_if_not_logged_in(session)
+        @user = current_user(session)
         @cakes_for_me = []
         @cakes_by_me = []
      
@@ -36,6 +36,7 @@ class CakesController < ApplicationController
     end
 
     get '/cakes/:id' do
+        @user = current_user(session)
         @cake = Cake.find(params["id"])
         erb :'/cakes/show'
     end

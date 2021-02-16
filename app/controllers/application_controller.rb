@@ -8,7 +8,7 @@ class ApplicationController < Sinatra::Base
     register Sinatra::Twitter::Bootstrap::Assets
 
     get '/' do
-      erb :"welcome.erb"
+      erb :"welcome"
     end
 
     get '/login' do
@@ -22,8 +22,7 @@ class ApplicationController < Sinatra::Base
       end
 
       def logged_in?(hash)
-        user = current_user(hash)
-        if user
+        if current_user(hash)
             true
         else
             false
@@ -53,8 +52,8 @@ class ApplicationController < Sinatra::Base
           end
       end
 
-      def redirect_if_not_logged_in
-        if !logged_in?
+      def redirect_if_not_logged_in(hash)
+        if !logged_in?(hash)
           redirect "/login" if !logged_in?
         end
       end
