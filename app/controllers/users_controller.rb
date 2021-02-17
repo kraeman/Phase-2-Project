@@ -5,15 +5,19 @@ class UsersController < ApplicationController
     end
 
     post '/users' do
-        if params["user"]["name"] != "" && params["user"]["birth_date"] != "" && params["user"]["username"] != "" && params["user"]["password"] != ""
-            user = User.create(params["user"])
-            user.age = age(user.birth_date)
-            user.save
-            if user.valid?
-                session["user_id"] = user.id
-                redirect "/users/#{user.id}"
+        if params["user"]["birth_date"].is_a? Date
+            if (params["user"]["name"] != "" && params["user"]["birth_date"] != "" && params["user"]["username"] != "" && params["user"]["password"] != "") && (params["user"]["name"].to_i.is_a? Integer)
+                user = User.create(params["user"])
+                user.age = age(user.birth_date)
+                user.save
+                if user.valid?
+                    session["user_id"] = user.id
+                    redirect "/users/#{user.id}"
+                else
+                    redirect "/users/new"
+                end
             else
-                redirect "/users/new"
+                erb :"/new_user_error"
             end
         else
             erb :"/new_user_error"
@@ -21,22 +25,30 @@ class UsersController < ApplicationController
     end
 
     get '/users/:id' do
-        user = User.find(params["id"])
-        if user == current_user(session)
-            @user = user
-            erb :'/users/show'
+        if !logged_in?(session)
+            redirect '/'
         else
-            erb :'error'
+            user = User.find(params["id"])
+            if user == current_user(session)
+                @user = user
+                erb :'/users/show'
+            else
+                erb :'error'
+            end
         end
     end
 
     get '/users/:id/edit' do
-        user = User.find(params["id"])
-        if user == current_user(session)
-            @user = user
-            erb :'/users/edit'
+        if !logged_in?(session)
+            redirect '/'
         else
-            erb :'error'
+            user = User.find(params["id"])
+            if user == current_user(session)
+                @user = user
+                erb :'/users/edit'
+            else
+                erb :'error'
+            end
         end
     end
 

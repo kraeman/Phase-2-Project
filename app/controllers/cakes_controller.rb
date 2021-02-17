@@ -1,24 +1,29 @@
 class CakesController < ApplicationController
-    # before("/coins") do
-    #     redirect_if_not_logged_in if request.path_info != "/login"
-    # end
 
     get '/cakes' do
-        redirect_if_not_logged_in(session)
-        @user = current_user(session)
-        @cakes_by_me = []
-     
-        Cake.all.each do |cake|
-            if belongs_to_current_user?(cake, session)
-                @cakes_by_me << cake
+        if !logged_in?(session)
+            redirect '/'
+        else    
+            # redirect_if_not_logged_in(session)
+            @user = current_user(session)
+            @cakes_by_me = []
+        
+            Cake.all.each do |cake|
+                if belongs_to_current_user?(cake, session)
+                    @cakes_by_me << cake
+                end
             end
+            erb :'/cakes/index'
         end
-        erb :'/cakes/index'
     end
 
     get '/cakes/new' do
-        @user = current_user(session)
-        erb :'/cakes/new'
+        if !logged_in?(session)
+            redirect '/'
+        else
+            @user = current_user(session)
+            erb :'/cakes/new'
+        end
     end
 
     post '/cakes' do
@@ -38,26 +43,34 @@ class CakesController < ApplicationController
     end
 
     get '/cakes/:id' do
-        user = current_user(session)
-        cake = Cake.find(params["id"])
-        if cake.owner_id == user.id
-            @user = user
-            @cake = cake
-            erb :'/cakes/show'
+        if !logged_in?(session)
+            redirect '/'
         else
-            erb :'error'
+            user = current_user(session)
+            cake = Cake.find(params["id"])
+            if cake.owner_id == user.id
+                @user = user
+                @cake = cake
+                erb :'/cakes/show'
+            else
+                erb :'error'
+            end
         end
     end
 
     get '/cakes/:id/edit' do
-        cake = Cake.find(params["id"])
-        user = current_user(session)
-        if cake.owner_id == user.id
-            @user = user
-            @cake = cake
-            erb :'/cakes/edit'
+        if !logged_in?(session)
+            redirect '/'
         else
-            erb :'error'
+            cake = Cake.find(params["id"])
+            user = current_user(session)
+            if cake.owner_id == user.id
+                @user = user
+                @cake = cake
+                erb :'/cakes/edit'
+            else
+                erb :'error'
+            end
         end
     end
 

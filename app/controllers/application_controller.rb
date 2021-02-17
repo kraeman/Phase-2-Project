@@ -18,7 +18,9 @@ class ApplicationController < Sinatra::Base
     helpers do
       def current_user(hash)
         id = hash[:user_id]
-        return User.find(id)
+        if id != nil
+          return User.find(id)
+        end
       end
 
       def logged_in?(hash)
@@ -45,11 +47,11 @@ class ApplicationController < Sinatra::Base
       end
 
 
-      def redirect_if_not_logged_in(hash)
-        if !logged_in?(hash)
-          redirect "/login" if !logged_in?
-        end
-      end
+      # def redirect_if_not_logged_in(hash)
+      #   if !logged_in?(hash)
+      #     redirect "/login" if !logged_in?
+      #   end
+      # end
 
       # def not_the_owner?(item)
       #   if !belongs_to_current_user_as_giver && !belongs_to_current_user_as_receiver
