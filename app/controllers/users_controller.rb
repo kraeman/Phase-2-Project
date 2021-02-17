@@ -5,9 +5,11 @@ class UsersController < ApplicationController
     end
 
     post '/users' do
-        if params["user"]["birth_date"].is_a? Date
+      
+        user = User.create(params["user"])
+        if user.birth_date.is_a? Date
             if (params["user"]["name"] != "" && params["user"]["birth_date"] != "" && params["user"]["username"] != "" && params["user"]["password"] != "") && (params["user"]["name"].to_i.is_a? Integer)
-                user = User.create(params["user"])
+                # user = User.create(params["user"])
                 user.age = age(user.birth_date)
                 user.save
                 if user.valid?
@@ -20,6 +22,7 @@ class UsersController < ApplicationController
                 erb :"/new_user_error"
             end
         else
+            User.all.pop
             erb :"/new_user_error"
         end
     end
@@ -34,6 +37,8 @@ class UsersController < ApplicationController
                 redirect '/'
             else
                 user = User.find(params["id"])
+                user.age = age(user.birth_date)
+                user.save
                 if user == current_user(session)
                     @user = user
                     erb :'/users/show'
@@ -73,14 +78,20 @@ class UsersController < ApplicationController
 
     patch '/users/:id' do
         user = User.find(params["id"])
-        if params["user"]["name"] != "" && params["user"]["birth_date"] != ""
-
-            user.update(name: params["user"]["name"], birth_date: params["user"]["birth_date"])
-            user.age = age(user.birth_date)
-            user.save
-            redirect "users/#{user.id}"
+        if user.birth_date.is_a? Date
+            # user = User.find(params["id"])
+            if params["user"]["name"] != "" && params["user"]["birth_date"] != ""
+                # user = User.find(params["id"])
+                user.update(name: params["user"]["name"], birth_date: params["user"]["birth_date"])
+                user.age = age(user.birth_date)
+                user.save
+                redirect "users/#{user.id}"
+            else
+                @user = user
+                erb :"/edit_user_error"
+            end
         else
-            @user = user
+            @user = User.find(params["id"])
             erb :"/edit_user_error"
         end
     end
