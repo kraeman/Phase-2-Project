@@ -25,29 +25,41 @@ class UsersController < ApplicationController
     end
 
     get '/users/:id' do
-        if !logged_in?(session)
-            redirect '/'
+        begin
+            User.find(params["id"])
+        rescue
+            erb :'/not_found'
         else
-            user = User.find(params["id"])
-            if user == current_user(session)
-                @user = user
-                erb :'/users/show'
+            if !logged_in?(session)
+                redirect '/'
             else
-                erb :'error'
+                user = User.find(params["id"])
+                if user == current_user(session)
+                    @user = user
+                    erb :'/users/show'
+                else
+                    erb :'error'
+                end
             end
         end
     end
 
     get '/users/:id/edit' do
-        if !logged_in?(session)
-            redirect '/'
+        begin
+            User.find(params["id"])
+        rescue
+            erb :'/not_found'
         else
-            user = User.find(params["id"])
-            if user == current_user(session)
-                @user = user
-                erb :'/users/edit'
+            if !logged_in?(session)
+                redirect '/'
             else
-                erb :'error'
+                user = User.find(params["id"])
+                if user == current_user(session)
+                    @user = user
+                    erb :'/users/edit'
+                else
+                    erb :'error'
+                end
             end
         end
     end

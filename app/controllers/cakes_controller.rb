@@ -43,33 +43,48 @@ class CakesController < ApplicationController
     end
 
     get '/cakes/:id' do
-        if !logged_in?(session)
-            redirect '/'
+        begin
+            Cake.find(params["id"])
+        rescue
+            erb :'/not_found'
         else
-            user = current_user(session)
-            cake = Cake.find(params["id"])
-            if cake.owner_id == user.id
-                @user = user
-                @cake = cake
-                erb :'/cakes/show'
+        # if !Cake.find(params["id"])
+        #     erb :'/not_found'
+        # end
+            if !logged_in?(session)
+                redirect '/'
             else
-                erb :'error'
+                user = current_user(session)
+                cake = Cake.find(params["id"])
+                if cake.owner_id == user.id
+                    @user = user
+                    @cake = cake
+                    erb :'/cakes/show'
+                else
+                    erb :'error'
+                end
             end
         end
     end
 
     get '/cakes/:id/edit' do
-        if !logged_in?(session)
-            redirect '/'
+        begin
+            Cake.find(params["id"])
+        rescue
+            erb :'/not_found'
         else
-            cake = Cake.find(params["id"])
-            user = current_user(session)
-            if cake.owner_id == user.id
-                @user = user
-                @cake = cake
-                erb :'/cakes/edit'
+            if !logged_in?(session)
+                redirect '/'
             else
-                erb :'error'
+                cake = Cake.find(params["id"])
+                user = current_user(session)
+                if cake.owner_id == user.id
+                    @user = user
+                    @cake = cake
+                    erb :'/cakes/edit'
+                else
+                    erb :'error'
+                end
             end
         end
     end
