@@ -4,13 +4,24 @@
     <meta charset="UTF-8">
     <title>Birthday Bonanza</title>
     <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">  
+    <style>
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.full-height {
+  height: 100%;
+  background: linear-gradient(to bottom, #ffff00 0%, #66ff33 100%);}
+</style>
 </head>
 <body>
+<div class="full-height", style="text-align:center">
   <label>Name: </label>
   <h1>  <%= @user.name %> </h1>
   <label>Age: </label>
   <h1>   <%= @user.age %> </h1>
-  <label>Birth Date: </label>
+  <label>Birth Date (YYYY-MM-DD): </label>
   <h1>  <%= @user.birth_date %> </h1>
 
 
@@ -22,7 +33,9 @@
 
 <br>
 <a class="button" href="/logout">Log Out</a>
-
+<br><br><br>
+<img src="/images/cold_bernie.png" alt="Feeling the Bern" style="width:700px">
+</div>
 
 </body>
 </html>

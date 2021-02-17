@@ -4,7 +4,6 @@ class CakesController < ApplicationController
         if !logged_in?(session)
             redirect '/'
         else    
-            # redirect_if_not_logged_in(session)
             @user = current_user(session)
             @cakes_by_me = []
         

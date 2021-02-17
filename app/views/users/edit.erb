@@ -5,7 +5,7 @@
     <title>Birthday Bonanza</title>
     <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">  
 </head>
-<body>
+<body style="background-color:green;">
 <h2>Edit User</h2>
 
 <form action="/users/<%= @user.id %>" method="POST">
@@ -19,7 +19,7 @@
 
     <br>
 
-    <label>Edit The Birthdate Ex.(February 11th, 1995 OR yyyy-mm-dd):</label>
+    <label>Edit The Birthdate Ex.(February 11th, 1995 OR 1995-02-11):</label>
     <br>
     <input type="text" name="user[birth_date]" id="user_birth_date" value="<%= @user.birth_date %>">
 

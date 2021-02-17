@@ -4,8 +4,19 @@
     <meta charset="UTF-8">
     <title>Birthday Bonanza</title>
     <link rel="stylesheet" href="stylesheets/bootstrap.css" type="text/css">  
+    <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    
+    .full-height {
+      height: 100%;
+      background: linear-gradient(to bottom, #ffff00 0%, #66ff33 100%);}
+    </style>
 </head>
-<body>
+<body id="page-top">
+<div class="full-height", style="text-align:center">
 <h2>All Your Cakes</h2>
 <% unless @cakes_by_me == []%>
 <% @cakes_by_me.each do |cake|%>
@@ -32,5 +43,6 @@
 <a class="button" href="/users/<%=@user.id%>">Home</a>
 <a class="button" href="/logout">Log out</a>
 <a class="button" href="/cakes/new">New Cake</a>
+</div>
 </body>
   </html>
