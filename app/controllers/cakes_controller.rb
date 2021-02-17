@@ -27,15 +27,20 @@ class CakesController < ApplicationController
     end
 
     post '/cakes' do
-   
-        if params["cake"]["name"] != "" && params["cake"]["recipe"] != "" && params["cake"]["cook_time"] != ""
-            cake = Cake.create(params["cake"])
-            cake.owner_id = current_user(session).id
-            cake.save
-            if cake.valid? 
-                redirect "/cakes/#{cake.id}"
+        hours_string = params["cake"]["cook_time"]
+        if hours_string.match?(/\A-?(?:\d+(?:\.\d*)?|\.\d+)\z/)
+            hours = hours_string.to_f
+            if params["cake"]["name"] != "" && params["cake"]["recipe"] != "" && params["cake"]["cook_time"] != ""
+                cake = Cake.create(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: hours)
+                cake.owner_id = current_user(session).id
+                cake.save
+                if cake.valid? 
+                    redirect "/cakes/#{cake.id}"
+                else
+                    redirect "/cakes/new"
+                end
             else
-                redirect "/cakes/new"
+                erb :"/new_cake_error"
             end
         else
             erb :"/new_cake_error"
@@ -92,10 +97,16 @@ class CakesController < ApplicationController
     
     patch '/cakes/:id' do
         cake = Cake.find(params["id"])
-        if params["cake"]["name"] != "" && params["cake"]["recipe"] != "" && params["cake"]["cook_time"] != ""
-            cake.update(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: params["cake"]["cook_time"])
-            # cake.save
-            redirect "/cakes/#{cake.id}"
+        hours_string = params["cake"]["cook_time"]
+        if hours_string.match?(/\A-?(?:\d+(?:\.\d*)?|\.\d+)\z/)
+            hours = hours_string.to_f
+                if params["cake"]["name"] != "" && params["cake"]["recipe"] != "" && params["cake"]["cook_time"] != ""
+                    cake.update(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: params["cake"]["cook_time"])
+                    redirect "/cakes/#{cake.id}"
+                else
+                    @cake = cake
+                    erb :"/edit_cake_error"
+                end
         else
             @cake = cake
             erb :"/edit_cake_error"
