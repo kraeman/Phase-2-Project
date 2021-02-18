@@ -16,19 +16,13 @@ class ApplicationController < Sinatra::Base
     end
 
     helpers do
-      def current_user(hash)
-        id = hash[:user_id]
-        if id != nil
-          return User.find(id)
-        end
+      def current_user
+        @current_user ||= User.find(session[:user_id]) if session[:user_id]
       end
+      
 
-      def logged_in?(hash)
-        if current_user(hash)
-            true
-        else
-            false
-        end
+      def logged_in?
+        !!current_user
       end
 
       def age(dob)

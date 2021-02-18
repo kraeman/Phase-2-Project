@@ -1,10 +1,10 @@
 class CakesController < ApplicationController
 
     get '/cakes' do
-        if !logged_in?(session)
+        if !logged_in?
             redirect '/'
         else    
-            @user = current_user(session)
+            @user = current_user
             @cakes_by_me = []
         
             Cake.all.each do |cake|
@@ -17,10 +17,10 @@ class CakesController < ApplicationController
     end
 
     get '/cakes/new' do
-        if !logged_in?(session)
+        if !logged_in?
             redirect '/'
         else
-            @user = current_user(session)
+            @user = current_user
             erb :'/cakes/new'
         end
     end
@@ -31,7 +31,7 @@ class CakesController < ApplicationController
             hours = hours_string.to_f
             if params["cake"]["name"] != "" && params["cake"]["recipe"] != "" && params["cake"]["cook_time"] != ""
                 cake = Cake.create(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: hours)
-                cake.owner_id = current_user(session).id
+                cake.owner_id = current_user.id
                 cake.save
                 if cake.valid? 
                     redirect "/cakes/#{cake.id}"
@@ -52,10 +52,10 @@ class CakesController < ApplicationController
         rescue
             erb :'/errors/not_found'
         else
-            if !logged_in?(session)
+            if !logged_in?
                 redirect '/'
             else
-                user = current_user(session)
+                user = current_user
                 cake = Cake.find(params["id"])
                 if cake.owner_id == user.id
                     @user = user
@@ -74,11 +74,11 @@ class CakesController < ApplicationController
         rescue
             erb :'/errors/not_found'
         else
-            if !logged_in?(session)
+            if !logged_in?
                 redirect '/'
             else
                 cake = Cake.find(params["id"])
-                user = current_user(session)
+                user = current_user
                 if cake.owner_id == user.id
                     @user = user
                     @cake = cake

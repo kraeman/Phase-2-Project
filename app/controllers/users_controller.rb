@@ -33,13 +33,13 @@ class UsersController < ApplicationController
         rescue
             erb :'/errors/not_found'
         else
-            if !logged_in?(session)
+            if !logged_in?
                 redirect '/'
             else
                 user = User.find(params["id"])
                 user.age = age(user.birth_date)
                 user.save
-                if user == current_user(session)
+                if user == current_user
                     @user = user
                     erb :'/users/show'
                 else
@@ -55,11 +55,11 @@ class UsersController < ApplicationController
         rescue
             erb :'/errors/not_found'
         else
-            if !logged_in?(session)
+            if !logged_in?
                 redirect '/'
             else
                 user = User.find(params["id"])
-                if user == current_user(session)
+                if user == current_user
                     @user = user
                     erb :'/users/edit'
                 else
