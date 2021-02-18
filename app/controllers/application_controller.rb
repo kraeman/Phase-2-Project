@@ -45,20 +45,7 @@ class ApplicationController < Sinatra::Base
               false
           end
       end
-
-
-      # def redirect_if_not_logged_in(hash)
-      #   if !logged_in?(hash)
-      #     redirect "/login" if !logged_in?
-      #   end
-      # end
-
-      # def not_the_owner?(item)
-      #   if !belongs_to_current_user_as_giver && !belongs_to_current_user_as_receiver
-      #     redirect '/cakes' 
-      #   end
-      # end
-
+      
     end
   end
   

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
         begin
             date = date_string.to_date
         rescue
-            erb :'/new_user_error'
+            erb :'/errors/new_user_error'
         else
             user = User.create(name: params["user"]["name"],username: params["user"]["username"],password: params["user"]["password"],birth_date: date)
                 if (params["user"]["name"] != "" && params["user"]["birth_date"] != "" && params["user"]["username"] != "" && params["user"]["password"] != "") && (params["user"]["name"].to_i.is_a? Integer)
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
                         redirect "/users/new"
                     end
                 else
-                    erb :"/new_user_error"
+                    erb :"/errors/new_user_error"
                 end
         end
     end
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
         begin
             User.find(params["id"])
         rescue
-            erb :'/not_found'
+            erb :'/errors/not_found'
         else
             if !logged_in?(session)
                 redirect '/'
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
                     @user = user
                     erb :'/users/show'
                 else
-                    erb :'error'
+                    erb :'/errors/error'
                 end
             end
         end
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
         begin
             User.find(params["id"])
         rescue
-            erb :'/not_found'
+            erb :'/errors/not_found'
         else
             if !logged_in?(session)
                 redirect '/'
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
                     @user = user
                     erb :'/users/edit'
                 else
-                    erb :'error'
+                    erb :'/errors/error'
                 end
             end
         end
@@ -83,7 +83,7 @@ class UsersController < ApplicationController
             date = date_string.to_date
         rescue
             @user = user
-            erb :'/edit_user_error'
+            erb :'/errors/edit_user_error'
         else
             
                 if params["user"]["name"] != "" && params["user"]["birth_date"] != ""
@@ -95,7 +95,7 @@ class UsersController < ApplicationController
                     redirect "users/#{user.id}"
                 else
                     @user = user
-                    erb :"/edit_user_error"
+                    erb :"/errors/edit_user_error"
                 end
         end
     end

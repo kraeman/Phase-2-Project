@@ -39,10 +39,10 @@ class CakesController < ApplicationController
                     redirect "/cakes/new"
                 end
             else
-                erb :"/new_cake_error"
+                erb :"/errors/new_cake_error"
             end
         else
-            erb :"/new_cake_error"
+            erb :"/errors/new_cake_error"
         end
     end
 
@@ -50,11 +50,8 @@ class CakesController < ApplicationController
         begin
             Cake.find(params["id"])
         rescue
-            erb :'/not_found'
+            erb :'/errors/not_found'
         else
-        # if !Cake.find(params["id"])
-        #     erb :'/not_found'
-        # end
             if !logged_in?(session)
                 redirect '/'
             else
@@ -65,7 +62,7 @@ class CakesController < ApplicationController
                     @cake = cake
                     erb :'/cakes/show'
                 else
-                    erb :'error'
+                    erb :'/errors/error'
                 end
             end
         end
@@ -75,7 +72,7 @@ class CakesController < ApplicationController
         begin
             Cake.find(params["id"])
         rescue
-            erb :'/not_found'
+            erb :'/errors/not_found'
         else
             if !logged_in?(session)
                 redirect '/'
@@ -87,7 +84,7 @@ class CakesController < ApplicationController
                     @cake = cake
                     erb :'/cakes/edit'
                 else
-                    erb :'error'
+                    erb :'/errors/error'
                 end
             end
         end
@@ -104,11 +101,11 @@ class CakesController < ApplicationController
                     redirect "/cakes/#{cake.id}"
                 else
                     @cake = cake
-                    erb :"/edit_cake_error"
+                    erb :"/errors/edit_cake_error"
                 end
         else
             @cake = cake
-            erb :"/edit_cake_error"
+            erb :"/errors/edit_cake_error"
         end
     end
 
