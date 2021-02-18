@@ -43,6 +43,7 @@ class UsersController < ApplicationController
                     @user = user
                     erb :'/users/show'
                 else
+                    @user = user
                     erb :'/errors/error'
                 end
             end
@@ -86,10 +87,10 @@ class UsersController < ApplicationController
             erb :'/errors/edit_user_error'
         else
             
-                if params["user"]["name"] != "" && params["user"]["birth_date"] != ""
+                if params["user"]["name"] != "" && params["user"]["birth_date"] != "" && params["user"]["username"] != "" && params["user"]["password"] != ""
                     user.birth_date = date
                     user.save
-                    user.update(name: params["user"]["name"], birth_date: params["user"]["birth_date"])
+                    user.update(name: params["user"]["name"], birth_date: params["user"]["birth_date"], username: params["user"]["username"], password: params["user"]["password"])
                     user.age = age(user.birth_date)
                     user.save
                     redirect "users/#{user.id}"

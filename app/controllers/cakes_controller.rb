@@ -62,6 +62,7 @@ class CakesController < ApplicationController
                     @cake = cake
                     erb :'/cakes/show'
                 else
+                    @user = user
                     erb :'/errors/error'
                 end
             end
