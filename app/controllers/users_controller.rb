@@ -33,6 +33,7 @@ class UsersController < ApplicationController
             User.find(params["id"])
         rescue
             if logged_in?
+                @user = current_user
                 erb :'/errors/not_found'
             else
                 redirect '/'
@@ -64,6 +65,7 @@ class UsersController < ApplicationController
             User.find(params["id"])
         rescue
             if logged_in?
+                @user = current_user
                 erb :'/errors/not_found'
             else
                 redirect '/'

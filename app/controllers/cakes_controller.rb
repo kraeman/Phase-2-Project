@@ -51,6 +51,7 @@ class CakesController < ApplicationController
             Cake.find(params["id"])
         rescue
             if logged_in?
+                @user = current_user
                 erb :'/errors/not_found'
             else
                 redirect '/'
@@ -82,6 +83,7 @@ class CakesController < ApplicationController
             Cake.find(params["id"])
         rescue
             if logged_in?
+                @user = current_user
                 erb :'/errors/not_found'
             else
                 redirect '/'
