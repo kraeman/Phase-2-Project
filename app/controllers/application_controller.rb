@@ -13,10 +13,12 @@ class ApplicationController < Sinatra::Base
     end
 
     get '/errors/error' do
+      @user = current_user
       erb :"/errors/error"
     end
 
     get '/errors/not_found' do
+      @user = current_user
       erb :"/errors/not_found"
     end
     
