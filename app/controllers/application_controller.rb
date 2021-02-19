@@ -8,16 +8,14 @@ class ApplicationController < Sinatra::Base
     register Sinatra::Twitter::Bootstrap::Assets
 
     get '/' do
+      redirect_if_logged_in
       erb :"welcome"
     end
 
-    get '/login' do
-      erb :"sessions/login"
-    end
 
     helpers do
       def current_user
-        @current_user ||= User.find(session[:user_id]) if session[:user_id]
+        current_user ||= User.find(session[:user_id]) if session[:user_id]
       end
       
 
@@ -29,6 +27,12 @@ class ApplicationController < Sinatra::Base
         now = Time.now
         years = now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
         return years
+      end
+
+      def redirect_if_logged_in
+        if logged_in?
+          redirect "/users/#{current_user.id}"
+        end
       end
         
       def belongs_to_current_user?(item, hash)

@@ -50,7 +50,11 @@ class CakesController < ApplicationController
         begin
             Cake.find(params["id"])
         rescue
-            erb :'/errors/not_found'
+            if logged_in?
+                erb :'/errors/not_found'
+            else
+                redirect '/'
+            end
         else
             if !logged_in?
                 redirect '/'
@@ -63,7 +67,11 @@ class CakesController < ApplicationController
                     erb :'/cakes/show'
                 else
                     @user = user
-                    erb :'/errors/error'
+                    if logged_in?
+                        erb :'/errors/error'
+                    else
+                        redirect '/'
+                    end
                 end
             end
         end
@@ -73,7 +81,11 @@ class CakesController < ApplicationController
         begin
             Cake.find(params["id"])
         rescue
-            erb :'/errors/not_found'
+            if logged_in?
+                erb :'/errors/not_found'
+            else
+                redirect '/'
+            end
         else
             if !logged_in?
                 redirect '/'
@@ -85,7 +97,12 @@ class CakesController < ApplicationController
                     @cake = cake
                     erb :'/cakes/edit'
                 else
-                    erb :'/errors/error'
+                    @user = user
+                    if logged_in?
+                        erb :'/errors/error'
+                    else
+                        redirect '/'
+                    end
                 end
             end
         end

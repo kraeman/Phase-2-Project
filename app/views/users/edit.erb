@@ -22,7 +22,6 @@
     <label>Edit The Birthdate Ex.(February 11th, 1995 OR 1995-02-11):</label>
     <br>
     <input type="text" name="user[birth_date]" id="user_birth_date" value="<%= @user.birth_date %>">
-    br>
     <br>
 
     <br>
@@ -30,20 +29,28 @@
     <label>Edit The Username:</label>
     <br>
     <input type="text" name="user[username]" id="user_username" value="<%= @user.username %>">
-    br>
+  
     <br>
 
     <br>
 
-    <label>Edit Password:</label>
+    <label>Edit Password (Leave blank to keep old password):</label>
     <br>
-    <input type="text" name="user[password]" id="user_password" value="<%= @user.password %>">
+    <input type="text" name="user[password]" id="user_password">
     <br>
 
     
     
     <input type="submit" value="Edit User">
   </form> 
+
+  <br>
+
+  <form onsubmit="confirm('Are you sure you want to delete your profile?')" action="/users/<%=@user.id%>/delete" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Delete</button>
+</form>
+<br>
 
 
   <a class="button" href="/users/<%=@user.id%>">Home</a>
