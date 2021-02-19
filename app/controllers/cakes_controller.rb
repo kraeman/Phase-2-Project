@@ -39,10 +39,10 @@ class CakesController < ApplicationController
                     redirect "/cakes/new"
                 end
             else
-                erb :"/errors/new_cake_error"
+                redirect "/errors/new_cake_error"
             end
         else
-            erb :"/errors/new_cake_error"
+            redirect "/errors/new_cake_error"
         end
     end
 
@@ -52,7 +52,7 @@ class CakesController < ApplicationController
         rescue
             if logged_in?
                 @user = current_user
-                erb :'/errors/not_found'
+                redirect "/errors/not_found"
             else
                 redirect '/'
             end
@@ -69,7 +69,7 @@ class CakesController < ApplicationController
                 else
                     @user = user
                     if logged_in?
-                        erb :'/errors/error'
+                        redirect "/errors/error"
                     else
                         redirect '/'
                     end
@@ -84,7 +84,7 @@ class CakesController < ApplicationController
         rescue
             if logged_in?
                 @user = current_user
-                erb :'/errors/not_found'
+                redirect "/errors/not_found"
             else
                 redirect '/'
             end
@@ -101,7 +101,7 @@ class CakesController < ApplicationController
                 else
                     @user = user
                     if logged_in?
-                        erb :'/errors/error'
+                        redirect "/errors/error"
                     else
                         redirect '/'
                     end
@@ -109,6 +109,18 @@ class CakesController < ApplicationController
             end
         end
     end
+
+
+    get '/errors/edit_cake_error' do
+      erb :"/errors/edit_cake_error"
+    end
+
+      get '/errors/new_cake_error' do
+        erb :"/errors/new_cake_error"
+      end
+
+
+     
 
     
     patch '/cakes/:id' do
@@ -120,12 +132,10 @@ class CakesController < ApplicationController
                     cake.update(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: params["cake"]["cook_time"])
                     redirect "/cakes/#{cake.id}"
                 else
-                    @cake = cake
-                    erb :"/errors/edit_cake_error"
+                    redirect "/errors/edit_cake_error"
                 end
         else
-            @cake = cake
-            erb :"/errors/edit_cake_error"
+            redirect "/errors/edit_cake_error"
         end
     end
 

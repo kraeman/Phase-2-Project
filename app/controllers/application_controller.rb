@@ -1,21 +1,35 @@
 class ApplicationController < Sinatra::Base
     configure do
       set :public_folder, 'public'
+      set :views, 'app/views'
       enable :sessions
       set :session_secret, ENV["SECRET"]
+      register Sinatra::Flash
     end
-    set :views, proc { File.join(root, '../views/') }
-    register Sinatra::Twitter::Bootstrap::Assets
 
     get '/' do
       redirect_if_logged_in
       erb :"welcome"
     end
 
+    get '/errors/error' do
+      erb :"/errors/error"
+    end
+
+    get '/errors/not_found' do
+      erb :"/errors/not_found"
+    end
+    
+    get '/errors/login_error' do
+      erb :"/errors/login_error"
+    end 
+
+    
+
 
     helpers do
       def current_user
-        current_user ||= User.find(session[:user_id]) if session[:user_id]
+        @current_user ||= User.find(session[:user_id]) if session[:user_id]
       end
       
 
