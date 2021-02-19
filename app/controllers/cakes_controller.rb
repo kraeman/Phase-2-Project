@@ -140,7 +140,11 @@ class CakesController < ApplicationController
     end
 
     delete '/cakes/:id/delete' do
-        Cake.delete(params["id"])
-        redirect "/cakes"
+        if current_user == Cake.find(params["id"]).user
+            Cake.delete(params["id"])
+            redirect "/cakes"
+        else
+            redirect "/errors/error"
+        end
     end
 end
