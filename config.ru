@@ -1,4 +1,5 @@
 $LOAD_PATH.unshift '.'
+#$LOAD_PATH is similar to require...used to locate gems and find the dependent classes.
 require 'config/environment'
 
 # use Rack::Static, urls: ['/css'], root: 'public'
