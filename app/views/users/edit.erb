@@ -8,11 +8,11 @@
 <body style="background-color:green;">
 <h2>Edit User</h2>
 
-<form action="/users/<%= @user.id %>" method="POST">
+<form action="/users/<%= @current_user.id %>" method="POST">
     <input id="hidden" type="hidden" name="_method" value="patch">
     <label>Edit Name:</label>
     <br>
-    <input type="text" name="user[name]" id="user_name" value="<%= @user.name %>">
+    <input type="text" name="user[name]" id="user_name" value="<%= @current_user.name %>">
 
     <br>
     <br>
@@ -21,14 +21,14 @@
 
     <label>Edit The Birthdate Ex.(February 11th, 1995 OR 1995-02-11):</label>
     <br>
-    <input type="text" name="user[birth_date]" id="user_birth_date" value="<%= @user.birth_date %>">
+    <input type="text" name="user[birth_date]" id="user_birth_date" value="<%= @current_user.birth_date %>">
     <br>
 
     <br>
 
     <label>Edit The Username:</label>
     <br>
-    <input type="text" name="user[username]" id="user_username" value="<%= @user.username %>">
+    <input type="text" name="user[username]" id="user_username" value="<%= @current_user.username %>">
   
     <br>
 
@@ -46,14 +46,14 @@
 
   <br>
 
-  <form onsubmit="confirm('Are you sure you want to delete your profile?')" action="/users/<%=@user.id%>/delete" method="POST">
+  <form onsubmit="confirm('Are you sure you want to delete your profile?')" action="/users/<%=@current_user.id%>/delete" method="POST">
         <input type="hidden" name="_method" value="DELETE">
         <button type="submit">Delete</button>
 </form>
 <br>
 
 
-  <a class="button" href="/users/<%=@user.id%>">Home</a>
+  <a class="button" href="/users/<%=@current_user.id%>">Home</a>
 
 </body>
 </html>

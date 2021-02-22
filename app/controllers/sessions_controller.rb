@@ -1,10 +1,11 @@
 class SessionsController < ApplicationController
     get "/login" do
-        redirect "/cakes" if logged_in?
+        redirect_if_logged_in
         erb :"/sessions/login"
     end
 
     post '/login' do
+        redirect_if_logged_in
         user = User.find_by(username: params[:username])
         if user && user.authenticate(params[:password])
             session[:user_id] = user.id
