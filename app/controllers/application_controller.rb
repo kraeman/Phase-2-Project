@@ -53,7 +53,7 @@ class ApplicationController < Sinatra::Base
         
       def belongs_to_current_user?(item, hash)
           id = hash[:user_id]
-          if item.owner_id == id
+          if item.user_id == id
               true
           else
               false

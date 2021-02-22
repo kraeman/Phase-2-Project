@@ -29,63 +29,45 @@ class UsersController < ApplicationController
     end
 
     get '/users/:id' do
-        begin
-            User.find(params["id"])
-        rescue
+        user = User.find_by(id: params["id"])
+        if user
             if logged_in?
-                @user = current_user
-                redirect "/errors/not_found"
-            else
-                redirect '/'
-            end
-        else
-            if !logged_in?
-                redirect '/'
-            else
-                user = User.find(params["id"])
-                user.age = age(user.birth_date)
-                user.save
-                if user == current_user
+                if user.id == current_user.id
                     @user = user
                     erb :'/users/show'
                 else
-                    @user = user
-                    if logged_in?
-                        redirect "/errors/error"
-                    else
-                        redirect '/'
-                    end
+                    redirect "/errors/error"
                 end
+            else
+                redirect "/"
+            end
+        else
+            if logged_in?
+                redirect "/errors/not_found"
+            else
+                redirect '/'
             end
         end
     end
 
     get '/users/:id/edit' do
-        begin
-            User.find(params["id"])
-        rescue
+        user = User.find_by(id: params["id"])
+        if user
             if logged_in?
-                @user = current_user
-                redirect "/errors/not_found"
-            else
-                redirect '/'
-            end
-        else
-            if !logged_in?
-                redirect '/'
-            else
-                user = User.find(params["id"])
-                if user == current_user
+                if user.id == current_user.id
                     @user = user
                     erb :'/users/edit'
                 else
-                    @user = user
-                    if logged_in?
-                        redirect "/errors/error"
-                    else
-                        redirect '/'
-                    end
+                    redirect "/errors/error"
                 end
+            else
+                redirect "/"
+            end
+        else
+            if logged_in?
+                redirect "/errors/not_found"
+            else
+                redirect '/'
             end
         end
     end
@@ -95,17 +77,21 @@ class UsersController < ApplicationController
     end
 
     get '/errors/edit_user_error' do
-        @current_user = current_user
-        erb :"/errors/edit_user_error"
+        if logged_in?
+            @current_user = current_user
+            erb :"/errors/edit_user_error"
+        else
+            redirect '/'
+        end
     end  
 
     get '/errors/new_user_error' do
         erb :"/errors/new_user_error"
       end  
 
-      get '/errors/signup_error' do
+    get '/errors/signup_error' do
         erb :"/errors/signup_error"
-      end  
+    end  
 
 
 

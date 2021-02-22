@@ -31,7 +31,7 @@ class CakesController < ApplicationController
             hours = hours_string.to_f
             if params["cake"]["name"] != "" && params["cake"]["recipe"] != "" && params["cake"]["cook_time"] != ""
                 cake = Cake.create(name: params["cake"]["name"],recipe: params["cake"]["recipe"],cook_time: hours)
-                cake.owner_id = current_user.id
+                cake.user = current_user.id
                 cake.save
                 if cake.valid? 
                     redirect "/cakes/#{cake.id}"
@@ -47,76 +47,68 @@ class CakesController < ApplicationController
     end
 
     get '/cakes/:id' do
-        begin
-            Cake.find(params["id"])
-        rescue
+        cake = Cake.find_by(id: params["id"])
+        if cake
             if logged_in?
-                @user = current_user
-                redirect "/errors/not_found"
-            else
-                redirect '/'
-            end
-        else
-            if !logged_in?
-                redirect '/'
-            else
                 user = current_user
-                cake = Cake.find(params["id"])
-                if cake.owner_id == user.id
+                if cake.user == user.id
                     @user = user
                     @cake = cake
                     erb :'/cakes/show'
                 else
-                    @user = user
-                    if logged_in?
-                        redirect "/errors/error"
-                    else
-                        redirect '/'
-                    end
+                    redirect "/errors/error"
                 end
+            else
+                redirect "/"
+            end
+        else
+            if logged_in?
+                redirect "/errors/not_found"
+            else
+                redirect '/'
             end
         end
     end
 
     get '/cakes/:id/edit' do
-        begin
-            Cake.find(params["id"])
-        rescue
+        cake = Cake.find_by(id: params["id"])
+        if cake
             if logged_in?
-                @user = current_user
-                redirect "/errors/not_found"
-            else
-                redirect '/'
-            end
-        else
-            if !logged_in?
-                redirect '/'
-            else
-                cake = Cake.find(params["id"])
                 user = current_user
-                if cake.owner_id == user.id
+                if cake.user == user.id
                     @user = user
                     @cake = cake
                     erb :'/cakes/edit'
                 else
-                    @user = user
-                    if logged_in?
-                        redirect "/errors/error"
-                    else
-                        redirect '/'
-                    end
+                    redirect "/errors/error"
                 end
+            else
+                redirect '/'
+            end
+        else
+            if logged_in?
+                redirect "/errors/not_found"
+            else
+                redirect '/'
             end
         end
     end
 
 
     get '/errors/edit_cake_error' do
-      erb :"/errors/edit_cake_error"
+        if logged_in?
+            erb :"/errors/edit_cake_error"
+        else
+            redirect "/"
+        end
     end
 
       get '/errors/new_cake_error' do
-        erb :"/errors/new_cake_error"
+        if logged_in?
+            erb :"/errors/new_cake_error"
+        else
+            redirect "/"
+        end
       end
 
 
